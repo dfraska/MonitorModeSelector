@@ -8,25 +8,30 @@ from tkinter import Tk, Button, Toplevel, Frame
 import screeninfo
 import DisplayMode
 from DisplayMode import Mode
+import keyboard
 
-class MultimonGui(Toplevel):
-    def duplicate_cmd(self):
+class MultimonGui(Toplevel):   
+    def set_duplicated(self):
         DisplayMode.set_mode(Mode.Duplicate)
-        self.master.destroy()
+        self.exit()
     
-    def extend_cmd(self):
+    def set_extended(self):
         DisplayMode.set_mode(Mode.Extend)
-        self.master.destroy()
+        self.exit()
     
-    def internal_screen_cmd(self):
+    def set_left_screen(self):
         DisplayMode.set_mode(Mode.Internal)
-        self.master.destroy()
+        self.exit()
     
-    def external_screen_cmd(self):
+    def set_right_screen(self):
         DisplayMode.set_mode(Mode.External)
-        self.master.destroy()
-
+        self.exit()
+        
     def cancel(self):
+        self.exit()
+        
+    def exit(self):
+        keyboard.unhook_all_hotkeys()
         self.master.destroy()
     
     def _create_widgets(self, curr_mode):
@@ -47,32 +52,59 @@ class MultimonGui(Toplevel):
         text = "Extend"
         if curr_mode == Mode.Extend:
             text += " (CURRENT)"
-        extend = Button(frame, text=text, command=self.extend_cmd)
+        extend = Button(frame, text=text, command=self.set_extended)
         extend.grid(row=0, column=0, sticky=tk.NSEW)
         
         text = "Duplicate"
         if curr_mode == Mode.Duplicate:
             text += " (CURRENT)"
-        duplicate = Button(frame, text=text, command=self.duplicate_cmd)
+        duplicate = Button(frame, text=text, command=self.set_duplicated)
         duplicate.grid(row=0, column=1, sticky=tk.NSEW)
         
         text = "Left TV"
         if curr_mode == Mode.Internal:
             text += " (CURRENT)"
-        left_monitor = Button(frame, text=text, command=self.internal_screen_cmd)
+        left_monitor = Button(frame, text=text, command=self.set_left_screen)
         left_monitor.grid(row=1, column=0, sticky=tk.NSEW)
         
         text = "Right TV"
         if curr_mode == Mode.External:
             text += " (CURRENT)"
-        right_monitor = Button(frame, text=text, command=self.external_screen_cmd)
+        right_monitor = Button(frame, text=text, command=self.set_right_screen)
         right_monitor.grid(row=1, column=1, sticky=tk.NSEW)
         
         cancel = Button(outer_frame, text='Cancel', command=self.cancel)
         cancel.grid(row=1, column=0, sticky=tk.SE)
     
+    def on_keyboard(self, key):        
+        if key == 'l' or key == 'left':
+            self.set_left_screen()
+        elif key == 'r' or key == 'right':
+            self.set_right_screen()
+        elif key == 'e':
+            self.set_extended()
+        elif key == 'd':
+            self.set_duplicated()
+            
+    def add_hotkey(self, key):
+        keyboard.add_hotkey(key, lambda *_: self.on_keyboard(key), suppress=True, trigger_on_release=False)
+
+    def add_hotkeys(self):
+        self.add_hotkey('left')
+        self.add_hotkey('right')
+        self.add_hotkey('l')
+        self.add_hotkey('r')
+        self.add_hotkey('e')
+        self.add_hotkey('d')
+
     def __init__(self, master, monitor):
         super().__init__(master)
+        
+        # Capture focus so that the program
+        # will get the keypresses immediately
+        self.focus_set()
+        
+        self.add_hotkeys()
         
         self.wm_attributes("-topmost", 1)
         
