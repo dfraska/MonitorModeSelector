@@ -6,4 +6,5 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; To start with PC, press Win+R, then type "shell:startup" and press
 ; enter. Create a shortcut to this script.
 
-#p::Run "E:\Python\Python36\pythonw.exe" "E:\SourceTree\MonitorModeSelector\MonitorModeSelector.py"
+SetWorkingDir, D:\SourceTree\MonitorModeSelector\runnhide\
+#p::Run D:\SourceTree\MonitorModeSelector\runnhide\RunNHide.exe ..\MonitorModeSelector.bat
