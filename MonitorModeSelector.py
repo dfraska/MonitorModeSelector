@@ -10,6 +10,9 @@ import DisplayMode
 from DisplayMode import Mode
 import keyboard
 
+LeftTV = Mode.External
+RightTV = Mode.Internal
+
 class MultimonGui(Toplevel):   
     def set_duplicated(self):
         DisplayMode.set_mode(Mode.Duplicate)
@@ -20,11 +23,12 @@ class MultimonGui(Toplevel):
         self.exit()
     
     def set_left_screen(self):
-        DisplayMode.set_mode(Mode.Internal)
+        DisplayMode.set_mode(LeftTV)
         self.exit()
     
+    
     def set_right_screen(self):
-        DisplayMode.set_mode(Mode.External)
+        DisplayMode.set_mode(RightTV)
         self.exit()
         
     def cancel(self):
@@ -62,13 +66,13 @@ class MultimonGui(Toplevel):
         duplicate.grid(row=0, column=1, sticky=tk.NSEW)
         
         text = "Left TV"
-        if curr_mode == Mode.Internal:
+        if curr_mode == LeftTV:
             text += " (CURRENT)"
         left_monitor = Button(frame, text=text, command=self.set_left_screen)
         left_monitor.grid(row=1, column=0, sticky=tk.NSEW)
         
         text = "Right TV"
-        if curr_mode == Mode.External:
+        if curr_mode == RightTV:
             text += " (CURRENT)"
         right_monitor = Button(frame, text=text, command=self.set_right_screen)
         right_monitor.grid(row=1, column=1, sticky=tk.NSEW)

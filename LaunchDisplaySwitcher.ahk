@@ -7,4 +7,4 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; enter. Create a shortcut to this script.
 
 SetWorkingDir, D:\SourceTree\MonitorModeSelector\runnhide\
-#p::Run D:\SourceTree\MonitorModeSelector\runnhide\RunNHide.exe ..\MonitorModeSelector.bat
+#p::Run .\runnhide\RunNHide.exe MonitorModeSelector.bat
