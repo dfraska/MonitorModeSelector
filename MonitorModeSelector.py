@@ -4,7 +4,7 @@ Created on Dec 30, 2017
 @author: Dave
 '''
 import tkinter as tk
-from tkinter import Tk, Button, Toplevel, Frame
+from tkinter import Tk, Button, Toplevel, Frame, messagebox
 import screeninfo
 import DisplayMode
 from DisplayMode import Mode
@@ -13,7 +13,7 @@ import keyboard
 LeftTV = Mode.External
 RightTV = Mode.Internal
 
-class MultimonGui(Toplevel):   
+class MultimonGui(Toplevel):
     def set_duplicated(self):
         DisplayMode.set_mode(Mode.Duplicate)
         self.exit()
@@ -39,19 +39,17 @@ class MultimonGui(Toplevel):
         self.master.destroy()
     
     def _create_widgets(self, curr_mode):
-        outer_frame = Frame(self)
-        outer_frame.grid_columnconfigure(0, weight=1)
-        outer_frame.grid_rowconfigure(0, weight=1)
-        outer_frame.grid_rowconfigure(1, weight=0)
-        outer_frame.pack(fill=tk.BOTH, expand=True)
-        
-        frame = Frame(outer_frame)
+        self.grid_rowconfigure(0, weight=1)
+        self.grid_rowconfigure(1, weight=0)
+        self.grid_columnconfigure(0, weight=1)
+                
+        frame = Frame(self)
         frame.grid(row=0, column=0, sticky=tk.NSEW)
         
-        frame.grid_columnconfigure(0, weight=1)
-        frame.grid_columnconfigure(1, weight=1)
-        frame.grid_rowconfigure(0, weight=1)
-        frame.grid_rowconfigure(1, weight=1)
+        frame.grid_columnconfigure(0, weight=1, uniform="fred")
+        frame.grid_columnconfigure(1, weight=1, uniform="fred")
+        frame.grid_rowconfigure(0, weight=1, uniform="wilma")
+        frame.grid_rowconfigure(1, weight=1, uniform="wilma")
         
         text = "Extend"
         if curr_mode == Mode.Extend:
@@ -77,7 +75,7 @@ class MultimonGui(Toplevel):
         right_monitor = Button(frame, text=text, command=self.set_right_screen)
         right_monitor.grid(row=1, column=1, sticky=tk.NSEW)
         
-        cancel = Button(outer_frame, text='Cancel', command=self.cancel)
+        cancel = Button(self, text='Cancel', command=self.cancel)
         cancel.grid(row=1, column=0, sticky=tk.SE)
     
     def on_keyboard(self, key):        
@@ -89,6 +87,8 @@ class MultimonGui(Toplevel):
             self.set_extended()
         elif key == 'd':
             self.set_duplicated()
+        elif key == 'esc':
+            self.exit()
             
     def add_hotkey(self, key):
         keyboard.add_hotkey(key, lambda *_: self.on_keyboard(key), suppress=True, trigger_on_release=False)
@@ -100,6 +100,7 @@ class MultimonGui(Toplevel):
         self.add_hotkey('r')
         self.add_hotkey('e')
         self.add_hotkey('d')
+        self.add_hotkey('esc')
 
     def __init__(self, master, monitor):
         super().__init__(master)
