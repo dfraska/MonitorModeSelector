@@ -6,5 +6,4 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; To start with PC, press Win+R, then type "shell:startup" and press
 ; enter. Create a shortcut to this script.
 
-SetWorkingDir, D:\SourceTree\MonitorModeSelector\runnhide\
-#p::Run .\runnhide\RunNHide.exe MonitorModeSelector.bat
+#p::Run .\runnhide\RunNHide.exe .\MonitorModeSelector.bat

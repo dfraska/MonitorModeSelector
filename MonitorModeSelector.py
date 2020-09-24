@@ -10,8 +10,8 @@ import DisplayMode
 from DisplayMode import Mode
 import keyboard
 
-LeftTV = Mode.External
-RightTV = Mode.Internal
+LeftTV = Mode.Internal
+RightTV = Mode.External
 
 class MultimonGui(Toplevel):
     def set_duplicated(self):
@@ -51,31 +51,34 @@ class MultimonGui(Toplevel):
         frame.grid_rowconfigure(0, weight=1, uniform="wilma")
         frame.grid_rowconfigure(1, weight=1, uniform="wilma")
         
+        font_large = ("Helvetica", 20)
+        font_small = ("Helvetica", 16)
+        
         text = "Extend"
         if curr_mode == Mode.Extend:
             text += " (CURRENT)"
-        extend = Button(frame, text=text, command=self.set_extended)
+        extend = Button(frame, text=text, command=self.set_extended, font=font_large)
         extend.grid(row=0, column=0, sticky=tk.NSEW)
         
         text = "Duplicate"
         if curr_mode == Mode.Duplicate:
             text += " (CURRENT)"
-        duplicate = Button(frame, text=text, command=self.set_duplicated)
+        duplicate = Button(frame, text=text, command=self.set_duplicated, font=font_large)
         duplicate.grid(row=0, column=1, sticky=tk.NSEW)
         
         text = "Left TV"
         if curr_mode == LeftTV:
             text += " (CURRENT)"
-        left_monitor = Button(frame, text=text, command=self.set_left_screen)
+        left_monitor = Button(frame, text=text, command=self.set_left_screen, font=font_large)
         left_monitor.grid(row=1, column=0, sticky=tk.NSEW)
         
         text = "Right TV"
         if curr_mode == RightTV:
             text += " (CURRENT)"
-        right_monitor = Button(frame, text=text, command=self.set_right_screen)
+        right_monitor = Button(frame, text=text, command=self.set_right_screen, font=font_large)
         right_monitor.grid(row=1, column=1, sticky=tk.NSEW)
         
-        cancel = Button(self, text='Cancel', command=self.cancel)
+        cancel = Button(self, text='Cancel', command=self.cancel, font=font_small)
         cancel.grid(row=1, column=0, sticky=tk.SE)
     
     def on_keyboard(self, key):        

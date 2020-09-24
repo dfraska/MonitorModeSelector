@@ -2,4 +2,4 @@
 REM Set the working directory to the script dir
 cd /D "%~dp0"
 
-pipenv run MonitorModeSelector.py
+pipenv run python MonitorModeSelector.py
