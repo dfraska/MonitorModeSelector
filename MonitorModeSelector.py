@@ -9,9 +9,12 @@ import screeninfo
 import DisplayMode
 from DisplayMode import Mode
 import keyboard
+from ctypes import windll
 
-LeftTV = Mode.Internal
-RightTV = Mode.External
+windll.shcore.SetProcessDpiAwareness(1)
+
+LeftTV = Mode.External
+RightTV = Mode.Internal
 
 class MultimonGui(Toplevel):
     def set_duplicated(self):
@@ -51,8 +54,8 @@ class MultimonGui(Toplevel):
         frame.grid_rowconfigure(0, weight=1, uniform="wilma")
         frame.grid_rowconfigure(1, weight=1, uniform="wilma")
         
-        font_large = ("Helvetica", 20)
-        font_small = ("Helvetica", 16)
+        font_large = ("Helvetica", 16)
+        font_small = ("Helvetica", 14)
         
         text = "Extend"
         if curr_mode == Mode.Extend:
