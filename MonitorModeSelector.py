@@ -4,7 +4,7 @@ Created on Dec 30, 2017
 @author: Dave
 '''
 import tkinter as tk
-from tkinter import Tk, Button, Toplevel, Frame, messagebox
+from tkinter import Tk, Button, Toplevel, Frame
 import screeninfo
 import DisplayMode
 from DisplayMode import Mode
@@ -15,6 +15,7 @@ windll.shcore.SetProcessDpiAwareness(1)
 
 LeftTV = Mode.External
 RightTV = Mode.Internal
+
 
 class MultimonGui(Toplevel):
     def set_duplicated(self):
@@ -28,8 +29,7 @@ class MultimonGui(Toplevel):
     def set_left_screen(self):
         DisplayMode.set_mode(LeftTV)
         self.exit()
-    
-    
+
     def set_right_screen(self):
         DisplayMode.set_mode(RightTV)
         self.exit()
@@ -121,7 +121,7 @@ class MultimonGui(Toplevel):
         
         curr_mode = DisplayMode.get_mode()
         
-        self.overrideredirect(1)
+        self.overrideredirect(True)
         
         width = int(monitor.width / 2)
         height = int(monitor.height / 2)
@@ -132,6 +132,7 @@ class MultimonGui(Toplevel):
         self.geometry(geometry)
         
         self._create_widgets(curr_mode)
+
 
 if __name__ == '__main__':
     root = Tk()
